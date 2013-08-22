@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title></title>
+
+    <script src="http://localhost:58674/Scripts/underscore.js"></script>
+    <script src="http://localhost:58674/Scripts/class.js"></script>
+</head>
+<body>
+    <pre>
+         var people = [
+                new Person("Doncho", "Nakov", 18),
+                new Person("Joro", "Georgiev", 48),
+                new Person("Niki", "Kostov", 21),
+                new Person("Dimitar", "Nakov", 16),
+                new Person("Ivaylo", "Kenov", 87),
+                new Person("Dobri", "Chintulov"),
+                new Person("Zahari", "Stoqnov"),
+                new Person("Nikola", "Petkov"),
+                new Person("Dimitar", "Petkov"),
+                new Person("Chudomir", "Nakov")   
+            ];
+    </pre>
+	<div id="result"></div>
+	<script>
+	    (function () {
+            var Person = Class.create({
+                init: function (fname, lname, age) {
+                    this.fname = fname;
+                    this.lname = lname;
+                    this.age = age;
+                },
+                toString: function () {
+                    return this.fname + " " + this.lname;
+                }
+            });
+
+            var people = [
+                new Person("Doncho", "Nakov", 18),
+                new Person("Joro", "Georgiev", 48),
+                new Person("Niki", "Kostov", 21),
+                new Person("Dimitar", "Nakov", 16),
+                new Person("Ivaylo", "Kenov", 87),
+                new Person("Dobri", "Chintulov"),
+                new Person("Zahari", "Stoqnov"),
+                new Person("Nikola", "Petkov"),
+                new Person("Dimitar", "Petkov"),
+                new Person("Chudomir", "Nakov")   
+            ];
+
+            var groupedByLastName = _.groupBy(people, "lname");
+            var groupedByFirstname = _.groupBy(people, "fname");
+		
+            var mostCommonLastName =
+                   _.last(
+                        _.sortBy(
+                            _.map(groupedByLastName, function (item, index) {
+                                return { lastName: index, repetitions: item.length };
+                            }),
+                        "repetitions")
+                    ).lastName;
+
+            var mostCommonFirstName =
+                  _.last(
+                       _.sortBy(
+                           _.map(groupedByFirstname, function (item, index) {
+                               return { firstname: index, repetitions: item.length };
+                           }),
+                       "repetitions")
+                   ).firstname;
+
+            document.getElementById("result").innerHTML +=
+                "<p>Most Common first name: " + mostCommonFirstName +
+                "</p><p>Most Common last name: " + mostCommonLastName + "</p>";
+        })()
+	</script>
+</body>
+</html>

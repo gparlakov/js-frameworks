@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>3.Students Marks</title>
+
+    <script src="http://localhost:58674/Scripts/underscore.js"></script>
+    <script src="http://localhost:58674/Scripts/class.js"></script>
+</head>
+<body>
+    <script>
+    (function () {
+        var Student = Class.create({
+            init: function (fname, lname, age, marks) {
+                this.fname = fname;
+                this.lname = lname;
+                this.age = age;
+                this.marks = marks;
+            },
+            toString: function () {
+                return this.fname + " " + this.lname;
+            }
+        });
+
+        //, [{ subject: "Html", value: "5" }, { subject: "Balgarski Ezik", value: "6" }]
+        // [{ subject: "C#", value: "3" }, { subject: "Balgarski Ezik", value: "3" }]),
+
+        var students = [
+            new Student("Dobri", "Chintulov", 10,[6, 4, 3]),
+            new Student("Zahari", "Stoqnov", 18,[3, 5, 5]),
+            new Student("Nikola", "Petkov",29,[3, 4, 3]),
+            new Student("Dimitar", "Petkov",36,[4, 5, 2]),
+            new Student("Chudomir", "Chudomir", 24, [3, 3, 3]
+        )];
+
+        var getAverage = function (marks) {
+            var length = marks.length;            
+            var all = 0;
+
+            for (var i = 0; i < length; i++) {
+                all+= marks[i];
+            }
+                    
+            return all / length;
+        }
+        
+        var studentsWithAverageMarks = _.map(students, function (stud) {
+            return {
+                name: stud.lname, averageMark: getAverage(stud.marks) 
+            }
+        });
+
+        var sortedByAverageMark = _.sortBy(studentsWithAverageMarks, "averageMark");
+
+        var hightest = _.last(sortedByAverageMark);
+        
+        console.log(hightest.name + " average mark " + hightest.averageMark);
+    })()
+
+    </script>
+
+</body>
+</html>

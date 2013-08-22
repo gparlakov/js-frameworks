@@ -23,11 +23,3 @@ http://localhost:58674/Scripts/underscore.min.map
 
     return students;
 })()
-
-var firstBeforaLastName = _.filter(students, function (student) {
-    return student.fname < student.lname;
-});
-
-_.each(firstBeforaLastName, function (stud) {
-    console.log(stud.toString());
-});

@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>3.Students Marks</title>
+    
+    <script src="http://localhost:58674/Scripts/class.js"></script>
+    <script src="http://localhost:58674/Scripts/underscore.js"></script>
+
+</head>
+<body>
+    <div id="result"><pre>var books = [
+            new Book("Dog in BG and abroad",                "Петров"),
+            new Book("Almost Harmless",                     "Douglas Adams"),
+            new Book("Студени играчки са звездите",         "Сергей Лукяненко"),
+            new Book("So long and thanks for all the fish", "Douglas Adams"),
+            new Book("Hichhicker's guide to the galaxy",    "Douglas Adams"),
+            new Book("Звездната Сянка",                     "Сергей Лукяненко"),
+            new Book("Ночной Дозор",                        "Сергей Лукяненко"),
+            new Book("Encyclopedia Britannica",             "Encyclopedia Britannica Assosiation"),
+            new Book("Дневной Дозор",                       "Сергей Лукяненко"),
+        ];</pre></div>
+    <script>
+    (function () {
+        var Book = Class.create({
+            init: function (name, author) {
+                this.name = name;
+                this.author = author;
+            }
+        });      
+
+        var books = [
+            new Book("Dog in BG and abroad", "Петров"),
+            new Book("Almost Harmless", "Douglas Adams"),
+            new Book("Студени играчки са звездите", "Сергей Лукяненко"),
+            new Book("So long and thanks for all the fish", "Douglas Adams"),
+            new Book("Hichhicker's guide to the galaxy", "Douglas Adams"),
+            new Book("Звездната Сянка", "Сергей Лукяненко"),
+            new Book("Ночной Дозор", "Сергей Лукяненко"),
+            new Book("Encyclopedia Britannica", "Encyclopedia Britannica Assosiation"),
+            new Book("Дневной Дозор", "Сергей Лукяненко"),
+        ];
+
+        var grouppedByAuthor = _.map(_.groupBy(books, "author"), function (group, index) {
+            return { author: index, numberBooks: group.length };
+        });        
+
+        // orders the books by number books as the most is on top
+        var ordered = _.sortBy(grouppedByAuthor, function (author) {
+            return - author.numberBooks;
+        });
+        
+        document.getElementById("result").innerHTML += "Author with most books: " + _.first(ordered).author;
+    })()
+
+    </script>
+
+</body>
+</html>

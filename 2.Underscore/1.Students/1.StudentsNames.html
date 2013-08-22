@@ -8,6 +8,15 @@
     <script src="students.js"></script>
 </head>
 <body>
+    <script>
+        var firstBeforaLastName = _.filter(students, function (student) {
+            return student.fname < student.lname;
+        });
 
+        _.each(firstBeforaLastName, function (stud) {
+            console.log(stud.toString());
+        });
+
+    </script>
 </body>
 </html>

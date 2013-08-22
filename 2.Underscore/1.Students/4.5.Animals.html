@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>3.Students Marks</title>
+
+    <script src="http://localhost:58674/Scripts/underscore.js"></script>
+    <script src="http://localhost:58674/Scripts/class.js"></script>
+</head>
+<body>
+    <script>
+    (function () {
+        var Animal = Class.create({
+            init: function (name , species, numberLegs) {
+                this.name = name;
+                this.species = species;
+                this.numberLegs = numberLegs;                
+            }
+        });
+
+        //, [{ subject: "Html", value: "5" }, { subject: "Balgarski Ezik", value: "6" }]
+        // [{ subject: "C#", value: "3" }, { subject: "Balgarski Ezik", value: "3" }]),
+
+        var animals = [
+            new Animal("Dog", "Mammal",  4),
+            new Animal("Dolphin", "Fish", 0),
+            new Animal("Whale", "Fish", 0),
+            new Animal("Human", "Mammal", 2),
+            new Animal("Walrus", "Mammal",  0),         // морж
+            new Animal("Snake", "Reptile", 0),
+            new Animal("Stonojka", "Insect", 100),
+            new Animal("Grasshopper", "Insect", 6),
+            new Animal("Тit","Bird", 2),                // синигер, а не което си помисли :)
+            new Animal("Hawk", "Bird", 2),
+            new Animal("Stegosaur", "Reptile", 4),
+            new Animal("Centipede", "Reptile", 2),      // стоножка
+        ];
+
+        // 4 task
+        var sortedByLegs = _.sortBy(animals, "numberLegs");
+
+        var groupedBySpecies = _.groupBy(sortedByLegs, "species");
+
+        _.each(groupedBySpecies, function (item, index) {
+            console.log(index)
+            _.each(item, function (anim) {
+                console.log("--" + anim.name + " " + " legs:" + anim.numberLegs);
+            })
+        });
+
+        // 5 task
+        var legs = _.map(animals, function (anim) {
+            return anim.numberLegs;
+        });
+
+        var all = 0;
+        _.each(legs, function (legs) {
+            all += legs;
+        });
+
+        console.log("------------");
+        console.log("legs counts: " + legs.join(","));
+        console.log("All legs = " + all + " broiki");
+    })()
+
+    </script>
+
+</body>
+</html>
