@@ -1,0 +1,7 @@
+﻿body {
+}
+
+#conten > table{
+    border:groove;
+    border-collapse:collapse;
+}
