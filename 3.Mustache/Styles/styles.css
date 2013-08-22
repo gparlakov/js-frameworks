@@ -1,7 +1,9 @@
 ﻿body {
 }
 
-#conten > table{
-    border:groove;
+#content > table{
     border-collapse:collapse;
 }
+    #content > table td {
+        border:groove;
+    }
