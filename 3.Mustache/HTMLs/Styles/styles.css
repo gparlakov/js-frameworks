@@ -1,4 +1,5 @@
-﻿body {
+﻿body {    
+    font-family:'Segoe UI';
 }
 
 #content > table{
@@ -7,3 +8,13 @@
     #content > table td {
         border:groove;
     }
+
+#content,
+#marks {
+    float:left;
+}
+
+.selected {
+    /*font-style:oblique;*/
+    background-color:green;
+}

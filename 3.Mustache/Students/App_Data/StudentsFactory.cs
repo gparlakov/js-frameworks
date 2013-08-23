@@ -51,7 +51,9 @@ namespace Students
             var students = new List<Student>();
             for (int i = 0; i < count; i++)
             {
-                students.Add(GenerateStudent());
+                var student = GenerateStudent();
+                student.Id = i;
+                students.Add(student);
             }
 
             return students;

@@ -12,11 +12,16 @@ namespace Students.Controllers
     {
         //
         // GET api/values
-        public IEnumerable<Student> Get()
+        public HttpResponseMessage Get()
         {
             var students = StudentsFactory.GenerateStudents(new Random().Next(20));
 
-            return students;
+            //return students;
+
+            var msg = this.Request.CreateResponse(HttpStatusCode.OK, students);
+            msg.Headers.Add("Access-Control-Allow-Origin", "*");
+
+            return msg;
         }       
     }
 }

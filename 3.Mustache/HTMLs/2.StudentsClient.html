@@ -5,74 +5,87 @@
 	<script src="Scripts/class.js"></script>
 	<script src="Scripts/mustache.js"></script>
 	<script src="Scripts/table-view.js"></script>
+    <script src="Scripts/jquery-1.7.1.js"></script>
+    <script src="Scripts/underscore.js"></script>
+
     <link href="Styles/styles.css" rel="stylesheet" />
 </head>
 <body>
     <script type="x-students-template" id="student-template">
-        <p>First Name : <strong>{{fname}}</strong></p>
-        <p>Last Name: <strong>{{lname}}</strong></p>
-        {{#age}}
-            <p>Age: <strong>{{age}}</strong></p>
-        {{/age}}           
-        {{#grade}}
-            <p>Grade: <strong>{{grade}}</strong></p>
-        {{/grade}}            
-        <p>Marks:
+        <div data-student-id="{{id}}" class="student-cell">
+            <p>First Name : <strong>{{fname}}</strong></p>
+            <p>Last Name: <strong>{{lname}}</strong></p>
+            {{#age}}
+                <p>Age: <strong>{{age}}</strong></p>
+            {{/age}}           
+            {{#grade}}
+                <p>Grade: <strong>{{grade}}</strong></p>
+            {{/grade}}  
+        </div>
+    </script>
+
+    <script type="x-marks-template" id="mark-template">
+         <p>Marks:
             <ul>
-                {{#marks}}
+                {{#.}}
                     <li>{{subject}} : {{value}}</li>
-                {{/marks}}
-                {{^marks}}
+                {{/.}}
+                {{^.}}
                     <li>No marks yet</li>
-                {{/marks}}
+                {{/.}}
             </ul>
         </p>  
     </script>
+
+    
 	<div id="content"></div>
+    <div id="marks"></div>
 	<script>
-        (function(){
-            var Student = Class.create({
-                init: function (fname, lname, marks, age, grade) {
-                    this.fname = fname;
-                    this.lname = lname;
-                    this.marks = marks;
-                    this.age = age;
-                    this.grade = grade;
-                },
-                fullname: function () {
-                    return this.fname + " " + this.lname;
-                }
-            });
+        (function(){           
+            var students = {};
+            var selected = $(".selected");
 
-            var Mark = Class.create({
-                init: function (subject, value) {
-                    this.subject = subject;
-                    this.value = value;
-                }
-            });
+            var studentTemplate = Mustache.compile($("#student-template").html());
+            var studentsTable = $("#content");
 
-            var people = [
-                new Student("Doncho", "Minkov", [new Mark("Math", 4), new Mark("JavaScript", 6)]),
-                new Student("Nikolay", "Kostov", [new Mark("MVC", 6), new Mark("JavaScript", 5)]),
-                new Student("Ivaylo", "Kendov", [new Mark("OOP", 4), new Mark("C#", 6)]),
-                new Student("Svetlin", "Nakov", [new Mark("Unit Testing", 5), new Mark("WPF", 6)]),
-                new Student("Asya", "Georgieva", [new Mark("Automation Testing", 6), new Mark("Manual Testing", 4)]),			
-                new Student("Georgi", "Georgiev", [new Mark("OOP", 4), new Mark("C#", 6)]),
-                new Student("Georgi", "OPwetrov"),
-                new Student("Pavel", "Georgiev", [new Mark("Automation Testing", 6), new Mark("Manual Testing", 4)]),
-                new Student("Todor", "Georgiev"),
-                new Student("Tihomir", "Georgiev", [new Mark("Automation Testing", 6), new Mark("Manual Testing", 4)]),
-                {}
-            ];
+            var markTemplate = $("#mark-template").html();
+            var marksContainer = $("#marks");
 
-            var personTemplate = Mustache.compile(document.getElementById("student-template").innerHTML);
+            var drawMarks = function () {
+                selected.toggleClass("selected");
 
-            var tableView = controls.getTableView(people, {cols:3, rows: 3});
+                selected = $(this);
+                var id = selected.addClass("selected").data("student-id");
+                var student = _.where(students, { id: id }, true);
 
-            var tableViewHtml = tableView.render(personTemplate);
+                var marksHtml = Mustache.render(markTemplate, student.marks);
+                marksContainer.html(marksHtml);
+            };
 
-            document.getElementById("content").innerHTML = tableViewHtml;
+            var getStudents = function (data) {
+                students = data;
+
+                var tableView = controls.getTableView(students);
+                var tableViewHtml = tableView.render(studentTemplate);
+
+                studentsTable.html(tableViewHtml);
+            }
+
+            $("#content").on("click", "div.student-cell", drawMarks);
+
+            var diplayError = function (err) {
+                alert(err.statusText + " " + err.responseText);
+            }
+
+            // if it doesn't work - change localhost port to suit yours
+            $.ajax({
+                url: "http://localhost:63470/api/students",
+                type: "GET",
+                success: getStudents,
+                error: diplayError
+            });            
         })()
 	</script>
 </body>
+
 </html>
