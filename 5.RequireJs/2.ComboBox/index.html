@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>2.ComboBox </title>
+    <script data-main="scripts/app-config" src="Scripts/lib/require.js"></script>
+    <link href="styles/site.css" rel="stylesheet" />
+</head>
+<body>  
+	<div id="content"><h1>Students:</h1></div>
+    <div id="marks"></div>
+
+   <script type="x-mustache-template" id="student-template">
+        <div data-student-id="{{id}}" class="student-element clear-fix">
+            <div class="float-left">
+                <p>First Name : <strong>{{fname}}</strong></p>
+                <p>Last Name: <strong>{{lname}}</strong></p>
+                {{#age}}
+                    <p>Age: <strong>{{age}}</strong></p>
+                {{/age}}           
+                {{#grade}}
+                    <p>Grade: <strong>{{grade}}</strong></p>
+                {{/grade}}
+           </div>
+            <div class="marks-container"> Marks:
+                <ul>
+                    {{#marks}}
+                        <li>{{subject}} : {{value}}</li>
+                    {{/marks}}
+                    {{^marks}}
+                        <li>No marks yet</li>
+                    {{/marks}}
+                </ul>
+            </div>
+        </div>
+   </script>
+
+    <!--<script type="x-mustache-template" id="mark-template">
+        <h1>This student's marks:</h1>
+        <ul>
+            {{#.}}
+                <li>{{subject}} : {{value}}</li>
+            {{/.}}
+            {{^.}}
+                <li>No marks yet</li>
+            {{/.}}
+        </ul>        
+        <button id="back-to-students">Back</button>
+    </script>-->
+
+</body>
+</html>

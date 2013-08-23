@@ -10,8 +10,7 @@
 ;(function () {
     require.config({
         paths: {
-            jquery: "lib/jquery-2.0.3",
-            //underscore: "lib/underscore.min",
+            jquery: "lib/jquery-2.0.3",           
             "class": "lib/class",
             mustache: "lib/mustache",
             rsvp: "lib/rsvp.min",
@@ -23,7 +22,7 @@
 
     require(["jquery", "mustache", "persister", "view"], //
         function ($, mustache, persister, views) {
-            var dataPersisiter = persister.getPersister("/api/");
+            var dataPersisiter = persister.getPersister("http://localhost:63470/api/");
 
             var mainContent = $("#content");
             var marks = $("#marks").toggleClass("hidden");
@@ -36,35 +35,11 @@
             dataPersisiter.students.all()
                 .then(function (students) {
                     data = students;
-                    var tableView = views.getTableView(students);
-                    var studentsListHtml = tableView.render(studentTemplate);
-                    //var comboBoxView = views.getComboBoxView("#content", students);
-                    //comboBoxView.render(studentTemplate);
-
-                    mainContent.append(studentsListHtml);
+                    
+                    var comboBoxView = views.getComboBoxView("#content", students);
+                    comboBoxView.render(studentTemplate);                    
                 },
                 onError);
-
-            mainContent.on("click", "div.student-element", function () {
-                var id = $(this).data("student-id");
-                
-                var studentMarks = getStudentsMarks(id);
-
-                var marksHtml = markTemplate(studentMarks);
-
-                marks.html(marksHtml);
-
-                togglePage();
-            });
-
-            marks.on("click", "#back-to-students", function () {
-                togglePage();
-            });
-
-            function togglePage() {
-                mainContent.toggleClass("hidden");
-                marks.toggleClass("hidden");
-            }
 
             function getStudentsMarks(id) {
                 for (var i = 0; i < data.length; i++) {
@@ -87,8 +62,30 @@
 
         // on require error
         function onErr(err) {
-            alert("error - check console for more info");
+            alert("A require.js error occured - check console for more info.");
             console.log(err);
         }
     );
 })()
+
+
+//mainContent.on("click", "div.student-element", function () {
+//    var id = $(this).data("student-id");
+
+//    var studentMarks = getStudentsMarks(id);
+
+//    var marksHtml = markTemplate(studentMarks);
+
+//    marks.html(marksHtml);
+
+//    togglePage();
+//});
+
+//marks.on("click", "#back-to-students", function () {
+//    togglePage();
+//});
+
+//function togglePage() {
+//    mainContent.toggleClass("hidden");
+//    marks.toggleClass("hidden");
+//}

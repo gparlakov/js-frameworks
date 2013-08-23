@@ -91,7 +91,6 @@ define(["jquery","class"], function ($, Class) {
         itemsSource: {},
         container: {},
         content: {},
-        //hiddenItems:,
         init: function (container, itemsSource) {
             if (!(itemsSource instanceof Array)) {
                 throw "The itemsSource of a ListView must be an array!";
@@ -100,7 +99,10 @@ define(["jquery","class"], function ($, Class) {
             this.itemsSource = itemsSource;
         },
         render: function (template) {
-            var comboBoxContainer = document.createDocumentFragment();
+            if (this.itemsSource.length === 0) {
+                this.container.html("<h1>Empty students list recieved from server. Refresh. Start the server from task 1.</h1>");
+                return;
+            }
 
             this.content = $("<div id='combo-box-content'/>");
             //this.content.id = "";
@@ -120,14 +122,20 @@ define(["jquery","class"], function ($, Class) {
             }
 
             this.hiddenItems.html(hiddenItems);
-            this.container.append(this.content).append(this.hiddenItems);
+            this.container.append(this.content)
+                .append("<div id='open-hidden-items-button'><img src='images/heroAccent.png'/></div>")
+                .append(this.hiddenItems);
 
             this.initEvents();
         },
         initEvents: function () {
-            var self = this;           
+            var self = this;
 
-            this.container.on("click", "#combo-box-content", function () {
+            this.container.on("mouseout", "#open-hidden-items-button", function () {
+                $(this).animate({ "padding-top": "5px" }).animate({ "padding-top": "0px" });
+            });
+
+            this.container.on("click", "#open-hidden-items-button", function () {
                 self.hiddenItems.toggle("slow");
             });
 

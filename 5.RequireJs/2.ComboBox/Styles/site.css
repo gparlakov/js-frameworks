@@ -1,0 +1,78 @@
+﻿
+/********** General ****************/
+html, body, p, div, ul, stong {
+    padding:0;
+    margin:0;
+    zoom:1;
+}
+
+.clear-fix:after {
+    display:block;
+    content:"";
+    clear:both;
+}
+
+.hidden {
+    display:none;
+}
+
+.float-left {
+    display:block;
+    float:left;
+}
+
+html {
+    font-family:'Adobe Gothic Std','Segoe UI';
+    font-size:20px;
+}
+
+ul {
+    list-style-type:none;
+}
+
+/*li {
+    padding:5px 10px;
+}*/
+
+/************* student-element ******************/
+    div.student-element {
+        border:1px solid skyblue;
+        /*float:left;*/
+    }
+    
+#content,
+#marks {
+    width:45%;
+    margin:0 auto;    
+}
+
+#content {
+    margin-top:50px;
+}
+
+.marks-container {
+    /*text-align:center;*/
+    float:left;
+    margin-left:50px;
+    /*font-size:2.6em;*/
+}
+
+/*#back-to-students {
+    padding:5px 10px;
+    font-size:1.2em;
+}*/
+
+
+/**********combo box elements********/
+#combo-box-content,
+#hidden-items
+{
+    float:left;
+}
+
+#hidden-items:before {
+    display:block;
+    content:"";
+    clear:both;
+}
+
