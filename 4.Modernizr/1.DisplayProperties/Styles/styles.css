@@ -1,0 +1,28 @@
+﻿body {
+    font-family:'Segoe UI';
+}
+
+.available {
+    color:green;
+}
+
+.not-available {
+    color: orangered;
+}
+
+ul {
+    list-style-type:none;
+}
+
+li {
+    float:left;
+    width:500px;
+    margin:5px;
+    font-size:1.3em;
+}
+
+.clear-fix:after {
+    content:"";
+    display:block;
+    clear:both;
+}

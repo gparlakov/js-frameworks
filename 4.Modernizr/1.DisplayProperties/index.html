@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+   <!-- <script src="Scripts/modernizr-latest.js"></script>-->
+    <script src="Scripts/modernizr.full.js"></script>
+    <script src="Scripts/ua-parser.js"></script>
+    <script src="Scripts/jquery-2.0.3.js"></script>
+    <link href="Styles/styles.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="functions-list-container" class="clear-fix">
+        <h1>Available properties of current html</h1>
+    </div>
+    <div id="browser-info"></div>
+    <script>
+        (function () {
+            var availableFunctions = "<ul>";
+            for (var i in Modernizr) {
+                var prop = Modernizr[i];
+                if (typeof (prop) != "function" && i.indexOf('_' > 0) && typeof (prop) != 'object') {
+                    if (prop) { // 
+                        availableFunctions += "<li class='available'><strong>" + i + "</strong> available</li>";
+                    }
+                    else {
+                        availableFunctions += "<li class='not-available'><strong>" + i + "</strong> unavailable</li>";
+                    }
+                }
+            }
+            availableFunctions += "</ul>";
+
+            document.getElementById("functions-list-container").innerHTML += availableFunctions;
+
+
+
+            var parser = new UAParser();
+
+            var browser = parser.getBrowser();
+            console.log(browser);
+
+            var os = parser.getOS();
+            console.log(os);
+
+            var device = parser.getDevice();
+            console.log(device);
+
+            var browserInfo =
+                "<dl>" +
+                    "<dt>Browser</dt>" + "<dd>" + browser.name + " v." + browser.version + "</dd>" +
+                    "<dt>OS</dt>" + "<dd>" + os.name + " v." + os.version + "</dd>" +
+                "</dl>";
+            document.getElementById("browser-info").innerHTML = browserInfo;
+
+        }());
+
+    </script>    
+
+</body>
+</html>
