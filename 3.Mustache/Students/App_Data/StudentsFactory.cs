@@ -10,10 +10,10 @@ namespace Students
 {
     public static class StudentsFactory 
     {
-        const string[] FirstNames = new string[] { "Petar", "Georgi", "Stamat", "Nikola", "Milena", "Mariqna", "Minka", "Siqna" };
-        const string[] LastNames = new string[] { "Petrov", "Georgiev", "Stamatiev", "Nikolaev", "Milenova", "Mariqnova", "Minkova", "Siqnaowa" };
-        const string[] SubjectNames = new string[] {"HTML", "JS Part I", "CSS", "JS Part II", "C# part I", "C# part II", "DataBases", "Algorithms and DataStructures", "JavaScriptApps", "Web Services" };
-        const Random rand = new Random();
+        private static string[] FirstNames = new string[] { "Petar", "Georgi", "Stamat", "Nikola", "Milena", "Mariqna", "Minka", "Siqna" };
+        private static string[] LastNames = new string[] { "Petrov", "Georgiev", "Stamatiev", "Nikolaev", "Milenova", "Mariqnova", "Minkova", "Siqnaowa" };
+        private static string[] SubjectNames = new string[] {"HTML", "JS Part I", "CSS", "JS Part II", "C# part I", "C# part II", "DataBases", "Algorithms and DataStructures", "JavaScriptApps", "Web Services" };
+        private static Random rand = new Random();
 
         public static Student GenerateStudent() 
         {

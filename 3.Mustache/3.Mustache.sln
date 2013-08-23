@@ -1,33 +1,49 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "3.Mustache", ".", "{AE70F46B-929F-4917-81A5-093C4CC292A6}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "HTMLs", "HTMLs\", "{981B4212-BC51-411E-B888-4D42F28DD639}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/3.Mustache"
-		Debug.AspNetCompiler.PhysicalPath = "..\..\..\..\Downloads\parlakov\jsFrameworks\trunk\3.Mustache\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\3.Mustache\"
+		Debug.AspNetCompiler.VirtualPath = "/HTMLs"
+		Debug.AspNetCompiler.PhysicalPath = "HTMLs\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\HTMLs\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/3.Mustache"
-		Release.AspNetCompiler.PhysicalPath = "..\..\..\..\Downloads\parlakov\jsFrameworks\trunk\3.Mustache\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\3.Mustache\"
+		Release.AspNetCompiler.VirtualPath = "/HTMLs"
+		Release.AspNetCompiler.PhysicalPath = "HTMLs\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\HTMLs\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "61467"
+		VWDPort = "63469"
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{210F3170-27FB-4921-9A60-A4929018CCE9}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Students", "Students\Students.csproj", "{F02A71DD-1AEC-4678-ABC9-1F253298E75D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AE70F46B-929F-4917-81A5-093C4CC292A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE70F46B-929F-4917-81A5-093C4CC292A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{981B4212-BC51-411E-B888-4D42F28DD639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{981B4212-BC51-411E-B888-4D42F28DD639}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{981B4212-BC51-411E-B888-4D42F28DD639}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{981B4212-BC51-411E-B888-4D42F28DD639}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{F02A71DD-1AEC-4678-ABC9-1F253298E75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F02A71DD-1AEC-4678-ABC9-1F253298E75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F02A71DD-1AEC-4678-ABC9-1F253298E75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F02A71DD-1AEC-4678-ABC9-1F253298E75D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
