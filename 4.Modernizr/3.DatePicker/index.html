@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/modernizr.inputTypes.js"></script>
+</head>
+<body>
+    <label for="date-picker-input">Date Picker:</label>
+    <input id="date-picker-input" type="date" />
+    <script>
+        Modernizr.load({
+            test: Modernizr.inputtypes.date,
+            nope: ["Scripts/jquery-1.9.1.js", "scripts/jquery-ui.custom.js", "styles/jquery-ui-1.10.3.custom.css"],
+            complete: function () {
+                if (window.$) {
+                    var datePicker = document.getElementById("date-picker-input");
+                    $(datePicker).datepicker();
+                }              
+            }
+        });
+    </script>
+</body>
+</html>

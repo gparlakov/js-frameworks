@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <!--[if IE]><script src="Scripts/excanvas.js"></script><![endif]-->
+    <script src="Scripts/modernizr.geoLocation.canvas.localstorage.js"></script>
+</head>
+<body>
+    
+    <div>
+        <h2>Position</h2>
+        <div id="position-display-element"></div>
+    </div>
+    <div>
+        <h2>Canvas</h2>
+        <canvas id="test-canvas"></canvas> 
+    </div>
+    <div>
+        <h2>localStorage</h2>
+        <input id="local-storage-text-input" placeholder="type some text to save to localstorage" />   
+        <input id="submit-btn" type="submit" method="#" action="#" />    
+    </div>
+    <script>
+        var drawRect = function () {
+            var canvas = document.getElementById("test-canvas");
+
+            if (window.G_vmlCanvasManager) {
+                canvas.previousSibling.innerHTML += "(Canvas not supported. It is polyfilled)"
+
+                G_vmlCanvasManager.initElement(canvas);
+            }
+
+            var ctx = canvas.getContext("2d");
+
+            ctx.fillStyle = "blue";
+            ctx.strokeStyle = "#ee2222";
+
+            ctx.strokeRect(2, 4, 66, 88);
+
+            ctx.fillRect(55, 55, 200, 200);
+        }
+
+        var displayPosition = function (position) {
+            var positionElement = document.getElementById("position-display-element");
+
+            positionElement.innerHTML = "Latitude: " + position.coords.latitude +
+                "| Longitude: " + position.coords.longitude;
+        }
+
+        var modernizrLoad = function () {
+            Modernizr.load({
+                test: Modernizr.geolocation,
+                nope: "Scripts/geo.js",
+                complete: function () {
+                    var positionDiv = document.getElementById("position-display-element");
+                    positionDiv.previousSibling.innerHTML += "(No Geolocation - polyfilled!)"
+
+                    navigator.geolocation.getCurrentPosition(displayPosition);
+                }
+            });          
+
+            Modernizr.load({
+                test: Modernizr.localstorage,
+                nope: "Scripts/storage.js"                
+            });
+        }
+
+        var attachListener = function (element, event, success, error) {
+            if (element.attachEvent) {
+                element.attachEvent("on" + event, success, error);
+            }
+            else if (element.addEventListener) {
+                element.addEventListener(event, success, error);
+            }
+            else {
+                element["on" + event] = success;
+            }
+        };        
+
+        window.onload = function () {
+            modernizrLoad();
+
+            drawRect();
+
+            var submitBtn = document.getElementById("submit-btn");
+            var input = document.getElementById("local-storage-text-input");
+
+            attachListener(submitBtn, "click", function () {
+                var text = input.value;
+
+                localStorage.setItem("test", text);
+            });
+
+            input.value = localStorage.getItem("test");
+        };
+
+    </script>
+</body>
+</html>
