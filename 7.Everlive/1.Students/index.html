@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Everlive Demo</title>
+    <link href="styles/styles.css" rel="stylesheet" />   
+    <script src="scripts/jquery.js"></script>
+    <script src="Scripts/lib/reqwest.js"></script>
+    <!--<script src="scripts/lib/jquery-2.0.3.js"></script>-->
+    <script src="scripts/lib/require.js" data-main="Scripts/application"></script>
+    
+</head>
+<body>
+    <nav class="clear-fix">
+        <ul id="navigation-bar">
+            <li>
+                <a href="#/">Home</a>
+            </li>
+            <li>
+                <a href="#/posts">Posts</a>
+            </li>
+            <li>
+                <a href="#/about">About</a>
+            </li>
+        </ul>
+        <div id="user-holder" class="hidden">
+            <p id="nickname"></p>
+            <button id="logout-button">Logout</button>
+        </div>
+        <div id="message-display-element"></div>
+    </nav>
+
+    <div id="main-content"></div>
+    
+</body>
+</html>

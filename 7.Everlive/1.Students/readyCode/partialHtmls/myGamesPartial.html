@@ -1,0 +1,39 @@
+﻿<div id="my-games-wrapper" class="clear-fix">
+    <h1>My Games</h1>
+    <div id="my-games" class="clear-fix">
+        <div id="created-games-wrapper">
+            <h2>Created games</h2>
+            <div id="created-games">
+            </div>
+        </div>
+
+        <div id="joined-games-wrapper">
+            <h2>Joined games</h2>
+            <div id="joined-games">
+            </div>
+        </div>
+    </div>    
+</div>
+
+<script type="x-mustache-template" id="created-games-template">
+    <ul>
+        {{#.}}
+        <li data-created-game-id="{{id}}" class="active-game-holder">
+            <strong>{{title}}</strong>
+            <p><span>{{status}}</span></p>
+        </li>
+        {{/.}}
+    </ul>
+    <button id="start-selected-game-button">Start selected game</button>
+</script>
+
+<script type="x-mustache-template" id="joined-games-template">
+    <ul>
+        {{#.}}
+            <li data-joined-game-id="{{id}}" class="joined-game-holder">
+                <strong>{{title}}</strong>
+                <p><span>{{status}}</span></p>
+            </li>
+        {{/.}}
+    </ul>
+</script>

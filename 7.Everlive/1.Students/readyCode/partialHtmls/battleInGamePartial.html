@@ -1,0 +1,59 @@
+﻿<div id="battle-in-game-wrapper" class="clear-fix">
+    <h1>Battle in Game</h1>
+    <div id="battle-in-game-and-joined-games-wrapper" class="clear-fix">        
+        <div id="battle-in-game-display" class="floatLeft">
+            <h2>Battle</h2>
+            <div id="battle-field">
+            </div>
+        </div>
+        <div id="joined-games-wrapper" class="floatLeft">
+            <h2>Joined games</h2>
+            <div id="joined-games">
+            </div>
+        </div>
+    </div>    
+</div>
+
+<script type="x-mustache-template" id="joined-games-template">
+    <ul>
+        {{#.}}
+            <li data-joined-game-id="{{id}}" class="active-game-holder">
+                <strong>{{title}}</strong>
+                <p><span>{{status}}</span></p>
+            </li>
+        {{/.}}
+    </ul>
+    <button id="go-to-selected-game-button">Go to selected Game</button>
+</script>
+
+<script type="x-mustache-template" id="battle-field-template">
+    <h3>{{title}}</h3>
+        
+    <table id="battle-field-table">
+        {{#field}}
+        <tr>
+            {{#.}}
+                {{#id}}
+                    <td data-unit-id="{{id}}" class="unit-type-{{type}} unit-mode-{{mode}} unit-owner-{{owner}}">
+                        <p>Health: {{hitPoints}} </p>
+                        <p>
+                            <span>Attack: {{attack}} </span>
+                            <span>Armor: {{armor}}</span>
+                        </p>
+                    </td>
+                {{/id}}
+                {{^id}}
+                    <td>                        
+                    </td>
+                {{/id}}          
+            {{/.}}
+            
+        </tr>
+        {{/field}}
+    </table>    
+
+    <p id="blue-player-name">{{blueNickname}}</p>
+    <p id="red-player-name">{{redNickname}}</p>
+    <p>Turn: {{turn}}</p>
+    <p>Player In turn:{{inTurn}}</p>
+</script>

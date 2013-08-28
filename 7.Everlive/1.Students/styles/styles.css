@@ -1,0 +1,139 @@
+﻿html, body, p, div,li,ul,input,label,textarea {
+    margin: 0;
+    padding: 0;
+    zoom: 1;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.clear-fix:after {
+    display:block;
+    content:"";
+    height:0;
+    clear:both;
+}
+
+.hidden {
+    display:none;
+}
+
+.floatLeft {
+    float:left;
+}
+
+.floatRight {
+    float:right;
+}
+
+body {
+    padding:20px 50px;
+}
+
+ul{
+    list-style-type:none;
+}
+
+
+/**********navigation bar***********/
+#navigation-bar {
+    list-style-type:none;    
+}
+
+    #navigation-bar > li{
+        float:left;
+        padding:5px 10px;
+    }
+
+        #navigation-bar > li > a {
+            color:skyblue;
+            text-decoration:none;            
+        }
+
+        #navigation-bar > li > a:hover{
+            background-color:#6d6a6a;
+        }
+
+        #navigation-bar > li > a:active{
+            color:blue;
+        }
+
+/********** logout button ***********/
+
+/********** error ***********/
+.error{
+    color:red;
+}
+
+/**************active-games*************/
+#active-games-wrapper {
+    text-align:center;
+}
+
+#active-games{
+    width:60%;
+    margin:20px auto;
+    border:1px solid green;
+}
+
+.active-game-holder,
+.joined-game-holder {
+    list-style-type:none;
+    padding:10px 20px;
+    margin:0px;
+}
+
+.selected{
+    border: 1px solid green;
+}
+
+
+/************my games - created joined **********/
+#created-games-wrapper,
+#joined-games-wrapper{
+    width:45%;
+    float:left;    
+}
+
+
+
+#my-games-wrapper{
+    text-align:center;
+}
+
+/*********** Battlefield***********/
+#battle-in-game-display{
+    width:60%;
+}
+
+#joined-games-wrapper{
+    width:30%;
+}
+
+
+#battle-field-table td{ 
+    border-collapse:collapse;
+    border:2px solid black;
+    width:50px;
+    height:50px;
+    text-align:center;
+    font-size:0.7em;
+}
+
+#battle-field-table .unit-owner-blue{
+    border-color:blue;
+}
+
+#battle-field-table .unit-owner-red{
+    border-color:red;
+}
+
+#battle-field-table .unit-type-ranger{
+    background-image:url("../images/ranger.png");
+}
+
+#battle-field-table .unit-type-warrior{
+    background-image:url("../images/warrior.png");
+}
+
+

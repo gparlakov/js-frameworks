@@ -1,0 +1,26 @@
+﻿<div id="logout-button-holder" class="clear-fix">
+    <button id="logout-button" class="floatRight">Logout</button>
+</div>
+<div id="active-games-wrapper" class="clear-fix">
+    <h1>Active Games</h1>
+    <!--<p id="nickname-element"></p>-->
+    <fieldset>
+        <legend>Join Game</legend>
+        <input type="text" placeholder="password - its optional" id="join-game-password" />
+        <button id="join-game-button">Join Selected</button>
+    </fieldset>
+    <div id="active-games"></div>  
+      
+</div>
+
+
+<script type="x-mustache-template" id="active-games-template">
+    <ul>
+        {{#.}}
+            <li class="active-game-holder" data-game-id="{{id}}">
+                <strong>{{title}}</strong>
+                <p>By: {{creator}}</p>                
+            </li>
+        {{/.}}
+    </ul>
+</script>
