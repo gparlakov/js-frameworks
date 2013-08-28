@@ -25,43 +25,49 @@
             "underscore":       "lib/underscore",
             "controller":       "app/controller",
             "sammy":            "lib/sammy-0.7.4",
-            "sha1":             "lib/sha1"
-        }
+            "sha1":             "lib/sha1",
+            "errorHandler":     "app/errorHandler"
+        }   
     });
 
-    require(["jquery", "persister", "controller","sammy", "underscore"],
-
-        
-
-        function ($, persister, controller, sammy) {
+    require(["jquery", "errorHandler", "persister", "controller","sammy", "underscore",],
+        function ($, handler, persister, controller, sammy) {
+            var errorHandler = handler.getErrorHandler("error-holder-child");
 
             var mainController = new controller("http://localhost:22954/api/", "main-content");
             
             var battleGameApp = sammy("#main-content", function () {
 
                 this.get("#/", function () {
-                    this.load("partialHtmls/loginRegisterForm.html").swap();
+                    this.load("partialHtmls/loginRegisterForm.html").swap().then(function () {
+                        
+                    }, errorHandler.handleError);
                 });
 
                 this.get("#/active", function (context) {
                     this.load("partialHtmls/activeGamesPartial.html").swap()
                         .then(function () {
                             mainController.initActiveGames();                            
-                        }, function (err) {
-                            console.log(err);
-                        });
+                        }, errorHandler.handleError);
                         
                 });
 
                 this.get("#/my", function () {
                     this.load("partialHtmls/myGamesPartial.html").swap().then(function () {
                         mainController.initMyGames();
-                    });
+                    }, errorHandler.handleError);
                 });
 
                 this.get("#/create-game", function () {
                     this.load("partialHtmls/createGamePartial.html").swap();
-                });
+                }, errorHandler.handleError);
+
+                this.get("#/battle-in-game", function () {
+                    this.load("partialHtmls/battleInGamePartial.html").swap()
+                        .then(function () {
+                            mainController.renderBattleInGame();
+                        });
+                }, errorHandler.handleError)
             });
 
             if (mainController.persister.isUserLogged) {
@@ -70,12 +76,8 @@
             else {
                 battleGameApp.run("#/");
             }
-        },
-
-        // on require error
-        function onErr(err) {
-            alert("A require.js error occured - check console for more info.");
+        }, function (err) {
+            prompt("An error occured! Check Console!");
             console.log(err);
-        }
-    );
+        });
 })()

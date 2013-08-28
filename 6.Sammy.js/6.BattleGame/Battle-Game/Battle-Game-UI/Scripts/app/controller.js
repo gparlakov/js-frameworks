@@ -9,7 +9,7 @@ define("controller",
 
     function ($, Class, dataPersister, sha1, mustache) {
         var errorFunc = function (error) {
-            if (error.statusText == "Created" || error.statusText == "OK") {
+            if (error.statusText == "Created" || error.statusText == "OK" || error.status >=200 && error.status < 300) {
                 var messageHolder = $("#error-holder-child");
                 messageHolder.html("Done!");
 
@@ -137,8 +137,23 @@ define("controller",
                 });
 
                 wrapper.on("click", "#start-selected-game-button", function () {
+                    var selected = $(".selected");
+                    var selectedGameId = selected.data("created-game-id");
 
-                })
+                    if (selected.length == 0 || !selectedGameId) {
+                        showErrorText("Select a game to start", this);
+                        return;
+                    }
+
+                    self.persister.game.start(selectedGameId).then(function () {
+                        selected.html("Started!");
+
+                        setTimeout(function () {
+                            selected.remove();
+                        }, 3000);
+
+                    }, errorFunc);
+                });
 
                 /*********** Create game **********/
                 wrapper.on("click", "#create-new-game-button", function () {
@@ -168,6 +183,37 @@ define("controller",
                     }, errorFunc);
                 });
 
+                /******** gop to selected game *****/
+                wrapper.on("click", "#go-to-selected-game-button", function () {
+                    var selected = $(".selected");
+                    if (selected.length == 0) {
+                        showErrorText("Select game to go to!", this);
+                        return;
+                    }
+
+                    var selectedGameId = selected.data("joined-game-id");
+
+                    self.persister.game.goToGame(selectedGameId).then(function (data) {
+                        //console.log(data);
+
+                        var field = self.createField(data);
+
+                        var grid = {
+                            title: data.title,
+                            blueNickname: data.blue.nickname,
+                            redNickname: data.red.nickname,
+                            turn: data.turn,
+                            inTurn: data.inTurnf,
+                            field: field
+                        };
+
+                        var battleFieldTemplate = mustache.compile($("#battle-field-template").html());
+
+                        var battleFieldHtml = battleFieldTemplate(grid);
+
+                        $("#battle-field").html(battleFieldHtml);
+                    }, errorFunc);
+                });
             },
             initActiveGames: function () {
                 var nickname = localStorage.getItem("nickname");
@@ -212,8 +258,57 @@ define("controller",
                     $("#created-games").html(myGamesHtml);
                 });
 
-                this.persister.get
+                //this.persister.get
+            },
+            renderBattleInGame: function () {
+                var nickname = localStorage.getItem("nickname");
+                if (!nickname) {
+                    $("#battle-in-game-wrapper").html("Please login!");
+                    return;
+                }
+
+                var joinedGamesTemplate = mustache.compile($("#joined-games-template").html());
+
+                var self = this;
+
+                this.persister.game.getMy()
+                    .then(function (data) {
+                        var htmlJoined = joinedGamesTemplate(data);
+                        $("#joined-games").html(htmlJoined);
+                    }, errorFunc);
+            },
+            renderBattleField: function () {
+                
+            },
+            putUnitsInField: function (units, field) {
+                for (var i = 0; i < units.length; i++) {
+                    var unit = units[i];
+                    var x = unit.position.x;
+                    var y = unit.position.y;
+                    field[x][y] = unit;
+                }
+
+                return field;
+            },
+            createField: function (data) {
+                var field = [];
+
+                var redUnits = data.red.units;
+                var blueUnits = data.blue.units;
+
+                for (var x = 0; x < 9; x++) {
+                    field[x] = [];
+                    for (var y = 0; y < 9; y++) {
+                        field[x].push(null);
+                    }
+                }
+
+                field = this.putUnitsInField(redUnits, field);
+                field = this.putUnitsInField(blueUnits, field);
+
+                return field;
             }
+            
         });
 
         return Controller;

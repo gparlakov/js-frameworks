@@ -67,7 +67,7 @@ define(
             },
             logout: function () {
                 var self = this;
-                return requester.putJSON(this.serviceUrl + "logout/" + this.sessionKey)
+                return requester.putJSON(this.serviceUrl + "logout/" + sessionKey)
                         .then(function (response) {
                             self.clearUserData();
                         });
@@ -97,6 +97,9 @@ define(
             },
             start: function (gameIdToStart) {
                 return requester.putJSON(this.servceUrl + gameIdToStart + "/start/" + sessionKey);
+            },
+            goToGame: function (gameId) {
+                return requester.getJSON(this.servceUrl + gameId + "/field/" + sessionKey);
             }
         });
         

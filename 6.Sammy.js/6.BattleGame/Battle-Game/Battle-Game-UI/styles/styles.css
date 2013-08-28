@@ -100,3 +100,40 @@ ul{
 #my-games-wrapper{
     text-align:center;
 }
+
+/*********** Battlefield***********/
+#battle-in-game-display{
+    width:60%;
+}
+
+#joined-games-wrapper{
+    width:30%;
+}
+
+
+#battle-field-table td{ 
+    border-collapse:collapse;
+    border:2px solid black;
+    width:50px;
+    height:50px;
+    text-align:center;
+    font-size:0.7em;
+}
+
+#battle-field-table .unit-owner-blue{
+    border-color:blue;
+}
+
+#battle-field-table .unit-owner-red{
+    border-color:red;
+}
+
+#battle-field-table .unit-type-ranger{
+    background-image:url("../images/ranger.png");
+}
+
+#battle-field-table .unit-type-warrior{
+    background-image:url("../images/warrior.png");
+}
+
+
