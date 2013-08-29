@@ -1,9 +1,11 @@
 ﻿/// <reference path="../lib/everlive.all.min.js" />
 /// <reference path="../lib/rsvp.min.js" />
+/// <reference path="../lib/jquery-2.0.3.js" />
+/// <reference path="controls.js" />
 
 define("controller",
-    ["data", "mustache", "class", "underscore"],
-    function (data, mustache, Class, uderscore) {
+    ["data", "mustache", "class", "controls","underscore"],
+    function (data, mustache, Class, uiControls, uderscore) {
         
         var Controller = Class.create({
             mainContent: {},
@@ -24,14 +26,17 @@ define("controller",
                 var self = this;
                 var wrapper = this.mainContent;
 
-                var toggleForms = function () {
+                var toggleForms = function (event) {
+                    event.preventDefault();
                     $("#login-form").toggle();
                     $("#register-form").toggle();
                 }
-
+                /******** user actions login register logout ******/
                 wrapper.on("click", "#login-register-toggle-button", toggleForms);
 
-                wrapper.on("click", "#login-button", function () {
+                wrapper.on("click", "#login-button", function (e) {
+                    e.preventDefault();
+
                     var username = $("#username-login").val();
                     var pass = $("#password-login").val();
                     //var authCode = CryptoJS.SHA1(username + pass).toString();
@@ -51,7 +56,9 @@ define("controller",
                         });
                 });
 
-                wrapper.on("click", "#register-button", function () {
+                wrapper.on("click", "#register-button", function (e) {
+                    e.preventDefault();
+
                     var username = $("#username-register").val();
                     var pass = $("#password-register").val();
                     //var authCode = CryptoJS.SHA1(username + pass).toString();
@@ -84,7 +91,9 @@ define("controller",
                     self.hideUserSection();
                 });
 
-                wrapper.on("click", "#create-post-button", function () {
+                /****** posts ****/
+                wrapper.on("click", "#create-post-button", function (e) {
+                    e.preventDefault();
                     var form = $("#create-post-form");
 
                     var title = form.find("#title-input").val();
@@ -102,17 +111,76 @@ define("controller",
                     var post = {
                         Title: title,
                         Content: content,
-                        Tags: tags
+                        Tags: tags,
+                        AuthorId:"" // needed for cloud code Author
                      };
 
                     self.persister.posts
                         .create(post)
                         .then(function (result) {
-                            alert(JSON.stringify(result));
+                            var posts = self.mainContent.find("#posts-wrapper")
+                                .children().first();
+
+                            var template = mustache.compile($("#post-template").html());
+
+                            post.Author = "This is your new Post";
+                            post.CreatedAt = result.result.CreatedAt;
+
+                            var newPostHtml = template(post);
+
+                            posts.append(newPostHtml);
+
                         }, function (err) {
                             self.errorHandler.handleError(err);
                         });
 
+                })
+
+                /****** comments ****/
+                wrapper.on("click", "#leave-comment-button", function (e) {
+                    e.preventDefault();
+                    var form = $("#leave-comment-form");
+                    var comment = form.find("#comment-content-input").val();
+                    var postId = $("#post-details").data("post-id");
+
+                    if (comment.length < 5) {
+                        self.errorHandler.displayErrorText("Comment must be at least 5 symbols");
+                        return;
+                    }
+
+                    if (!postId || postId.length < 10) {
+                        self.errorHandler.displayErrorText("Wrong credentials - please refresh or login");
+                        return;
+                    }
+
+                    var comment = {
+                        Content: comment,
+                        PostId: postId,
+                        AuthorId: "" // needed for cloud code Author
+                    }
+
+                    self.persister.comments.commentPost(comment)
+                        .then(function (response) {
+                            comment.Author = "Me,Myself And mee";
+                            var commentTemplateCode = $("#comment-template").html();
+                            var commentHtml = mustache.render(commentTemplateCode, comment);
+                            var ul = self.mainContent.find("#comments-wrapper")
+                            ul.append(commentHtml);
+
+                            var result = $("<span>")
+                                .html("Success: ")
+                                .addClass("done-ok-green");
+
+                            form.prepend(result);
+                            form.find("#comment-content-input").val("");
+
+                            setTimeout(function () {
+                                result.slideToggle().remove();
+                            }, 5000);
+                           
+                        }, function (err) {
+                            self.errorHandler.handleError(err);
+                        });
                 })
 
             },
@@ -134,14 +202,67 @@ define("controller",
             renderPost: function () {
                 var self = this;
                 this.persister.posts.getAll().then(function (response) {
-                    var postsListTemplate = mustache.compile($("#posts-list-template").html());
+                    var postsListTemplate = mustache.compile($("#post-template").html());
 
-                    var html = postsListTemplate(response);
+                    var tableView = uiControls.getListView(response.result);
+                    var html = tableView.render(postsListTemplate);
+
                     self.mainContent.find("#posts-wrapper").html(html);
-
                 }, function (err) {
                     self.errorHandler.handleError(err);
                 });
+            },
+            renderPostDetails: function (id) {
+                var self = this;
+                this.persister.posts.getById(id)
+                    .then(function (response) {
+                        var template = mustache.compile(
+                            self.mainContent.find("#post-details-template").html());
+
+                        var model = response.result;
+                        if (!(model instanceof Array)) {
+                            model = [model];
+                        }
+                        var listView = uiControls.getListView(model);
+                        var postDetailsHtml = listView.render(template);
+
+                        var postsDetailsWrapper = self.mainContent.find("#post-details-wrapper");
+                        postsDetailsWrapper.html(postDetailsHtml);
+
+                        return self.persister.comments.getByPostId(id);
+                    })
+                    .then(function (response) {
+                        var commentTemplate = mustache.compile(
+                            self.mainContent.find("#comment-template").html());
+
+                        var uiControl = uiControls.getListView(response.result, { rows: 1 });
+
+                        var commentsHtml = uiControl.render(commentTemplate);
+                        
+                        self.mainContent.find("#comments-wrapper").html(commentsHtml);
+
+                    }, function (err) {
+                        self.errorHandler.handleError(err);
+                    })
+            },
+            renderTags: function () {
+
+                var self = this;
+                this.persister.posts.getTags()
+                    .then(function (tags) {
+                        
+                        var tagsText = "";
+
+                        for (var i in tags) {
+                            tagsText += i + ", ";
+                        }
+
+                        $("#tags").html("<strong>Tags:</strong><p>" + tagsText + "</p>");
+                    },
+                    function (err) {
+                        self.errorHandler.handleError(err);
+                    })
+                
             }
         });
         

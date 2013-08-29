@@ -1,45 +1,25 @@
 ﻿<div>   
-   <h1>Posts</h1>
-    <div id="posts-wrapper" class="clear-fix">
+    <h1>Posts</h1>
+    
+    <a href="#/posts/create">New Post</a>
+    <div id="new-post-form-holder">
 
     </div>
-    <form id="create-post-form">
-        <fieldset>
-            <legend>Create New Post</legend>
-            <label>
-                Title
-                <input type="text" placeholder="Title" id="title-input" />
-            </label>
-            <label>
-                Content
-                <textarea rows=10 cols=30 placeholder="Content goes here" id="content-input"></textarea>
-            </label>
-            <label>Tags
-                <input type="text" placeholder="Tags here - separated by comma ',''" id="tags-input"/>
-            </label>
-            <button id="create-post-button">Create Post</button>
-        </fieldset>
-        
-    </form>
+
+    <div id="posts-wrapper" class="clear-fix">
+    </div>    
 </div>
 
-<script type="x-mustache-template" id="posts-list-template">
-    <ul>
-        {{#result}}
-            <li class="post">
-                <strong><a href="#/posts/{{Id}}">{{Title}}</a></strong>
-                <div>
-                    <p>{{CreatedAt}}</p>
-                    <span>{{Content}}</span>
-                    <span>
-                        Tags:
-                        {{#Tags}}
-                            <span>{{.}},</span>
-                        {{/Tags}}
-                    </span>
-                </div>
-            </li>
-        {{/result}}
-    </ul>
+<script type="x-mustache-template" id="post-template">   
+        <div class="post">
+            <strong><a href="#/posts/{{Id}}">{{Title}}</a></strong>
+            <p class="created-at-date">Author: {{Author}}, Created at: {{CreatedAt}}</p>
+            <div><p class="post-content">{{Content}}</p></div>
+            <div class="tags">
+                Tags:
+                {{#Tags}}
+                <span>{{.}},</span>
+                {{/Tags}}
+            </div>
+        </div>
 </script>
-

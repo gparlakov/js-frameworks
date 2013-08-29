@@ -28,7 +28,11 @@
             
             var forumApp = sammy("#main-content", function () {
                 this.get("#/", function () {
-                    this.load("partialHtml/loginRegisterForm.html").swap();
+                    this.load("partialHtml/loginRegisterForm.html").swap()
+                        .then(function () {
+                            mainController.renderTags();
+                        }
+                    );
                 });
 
                 this.get("#/home", function () {
@@ -37,19 +41,64 @@
 
                 this.get("#/posts", function () {
                     //errorHandler.displayErrorText("Posts!")
-                    this.load("partialHtml/postsPartial.html").swap().then(function () {
-                        mainController.renderPost();
-                    })
+                    this.load("partialHtml/postsPartial.html").swap()
+                        .then(function () {
+                            mainController.renderPost();
+                        }, function (err) {
+                            mainController.errorHandler.handleError(err);
+                        }
+                    )
                 })
 
                 this.get("#/about", function () {
-                    errorHandler.displayErrorText("About!")
+                    this.load("partialHtml/aboutPartial.html").swap()
+                        .then(null,
+                        function (err) {
+                            mainController.errorHandler.handleError(err);
+                        }
+                    );
                 })
 
-                this.get("#/posts/:id", function (id) {
-                    errorHandler.displayErrorText("get by id" + id);
+                this.get("#/posts/create", function (context) {
+
+                    //main = $("#main-content");
+                    //var oldmarkup = main.html();
+                    this.load("partialHtml/newPostFormPartial.html")
+                        .then(function (partialHtml) {
+                            //main.html(oldmarkup);
+                            $("#new-post-form-holder").html(partialHtml);
+                        }, function (err) {
+                            mainController.errorHandler.handleError(err);
+                        }
+                    );
                 })
 
+                this.get("#/posts/:id/comment", function (context) {
+                    var postId = context.params.id;
+                    this.load("partialHtml/commentFormPartial.html")
+                        .then(function (partialHtml) {
+                            $("#comment-form-holder").html(partialHtml);
+                        }, function (err) {
+                            mainController.errorHandler.handleError(err);
+                        }
+                    )
+                })
+
+                this.get("#/posts/:id", function (context) {
+                    var id = context.params.id;
+                    this.load("partialHtml/postDetailsPartial.html").swap()
+                        .then(function () {
+                            mainController.renderPostDetails(id);
+                        }, function (err) {
+                            mainController.errorHandler.handleError(err);
+                        }
+                    )
+                })
+
+                this.get("#/posts/:id/comment", function (context) {
+                    var postId = context.params.id;
+                });
+                
             });
 
             if (mainController.persister.isUserLogged()) {

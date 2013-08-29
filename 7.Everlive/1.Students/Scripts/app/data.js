@@ -47,7 +47,7 @@ define("data", ["everlive","class", "rsvp"], function (everlive, Class) {
 
             this.posts = new PostsPersister(this.elContext);
 
-            //this.tags = new TagsPersister(this.elContext);
+            this.comments = new CommentsPersister(this.elContext);
         },
         isUserLogged: function () {
             return isUserLogged();
@@ -95,40 +95,63 @@ define("data", ["everlive","class", "rsvp"], function (everlive, Class) {
 
     var PostsPersister = Class.create({
         init: function (context) {
-            this.context = context;
+            this.posts = context.data("Posts");
         },
         getAll: function () {
-            return this.context.data("Posts").get();
+            return this.posts.get();
         },
         create: function (post) {
-            return this.context.data("Posts").create(post);
+            return this.posts.create(post);
+        },
+        getById: function (id) {
+            return this.posts.getById(id);
+        },
+        getTags: function () {
+            var self = this;
+
+            return new RSVP.Promise(function (resolve, reject) {
+                self.posts.get().then(function (response) {
+                    var tagsHash = {};
+
+                    var posts = response.result;
+
+                    for (var i = 0; i < posts.length; i++) {
+                        var tags = posts[i].Tags;
+
+                        for (var j = 0; j < tags.length; j++) {
+                            var tag = tags[j];
+                            if (!tagsHash[tag]) {
+                                tagsHash[tag] = 1;
+                            }
+                            else {
+                                tagsHash[tag]++;
+                            }
+                        }
+                    }
+
+                    resolve(tagsHash);
+                }, function (err) {
+                    reject(err);
+                })
+            });
         }
     });
 
-    //var TagsPersister = Class.create({
-    //    init: function (context) {
-    //        this.tags = context.data("Tags");
-    //    },
-    //    createMultiple: function (tags) {
-    //        for (var i = 0; i < tags.length; i++) {
-    //            this.createTag(tags[i]);
-    //        }
-    //    },
-    //    createTag: function (tag) {
-    //        var sameName = new Everlive.Query()
-    //        sameName.where().eq("name", tag.name);
+    var CommentsPersister = Class.create({
+        init: function (context) {
+            this.comments = context.data("Comments");
+        },
+        getByPostId: function (postId) {
+            var queryByPostId = new Everlive.Query();
+            queryByPostId.where().eq("PostId", postId);
 
-
-    //        this.tags.get(sameName).then(function (result) {
-    //            alert(JSON.stringify(result));
-
-    //            if (result.length == 0) {
-
-    //            }
-    //        })
-    //    }
-
-    //})
+            return this.comments.get(queryByPostId);
+        },
+        commentPost: function (comment) {
+            comment.Post = comment.PostId;
+            return this.comments.create(comment);
+        }
+    });
 
     return function (apiKey) {
         return new Data(apiKey);

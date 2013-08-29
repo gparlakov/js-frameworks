@@ -17,17 +17,25 @@ define("errorHandler", ["class"], function (Class) {
             
         },
         handleError: function (error) {
-            //if (error.statusText == "Created" || error.statusText == "OK") {               
-            //    ErrorHandler.messageElement.html("Done!");
-            //    setTimeout(function () { messageHolder.html("") }, 5000);
-            //    return;
-            //}
+            if (error.statusText == "Created" || error.statusText == "OK") {               
+                ErrorHandler.messageElement.html("Done!");
+                setTimeout(function () { messageHolder.html("") }, 5000);
+                return;
+            }
 
+            //local errors
+            if (error.split) {
+                this.displayErrorText(error);
+                return;
+            }
+
+            //require errors
             if (error.message) {
                 this.displayErrorText(error.message);
                 return;
             }
 
+            //server errors
             if (error.responseText) {
                 var message = JSON.parse(error.responseText);
 
@@ -37,7 +45,8 @@ define("errorHandler", ["class"], function (Class) {
                 }
             }
 
-            prompt("An error occured - check console!");
+            //unknown errors
+            this.displayErrorText("An unexpected error occured - check console!");
             console.log(error);
         },
         displayErrorText: function (errorMessage) {

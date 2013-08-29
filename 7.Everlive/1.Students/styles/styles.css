@@ -60,80 +60,50 @@ ul{
 
 /********** logout button ***********/
 
+
+/*****main-content*****/
+#main-content{
+    width:75%;
+    /*float:left;*/
+}
+/*******sside-bar****/
+#side-bar{
+    float:right;
+    width:20%;
+}
 /********** error ***********/
 .error{
     color:red;
 }
 
-/**************active-games*************/
-#active-games-wrapper {
-    text-align:center;
+/*********** OK message done-ok-green ********/
+.done-ok-green{
+    color:green;
+    font-family:'Adobe Arabic', 'Adobe Hebrew', Consolas;
 }
 
-#active-games{
-    width:60%;
-    margin:20px auto;
-    border:1px solid green;
+/********** posts ***********/
+.post{
+    margin:10px 20px;
+    background-color:skyblue;
 }
 
-.active-game-holder,
-.joined-game-holder {
-    list-style-type:none;
-    padding:10px 20px;
-    margin:0px;
+.post-content{
+    margin:5px  0px;
+    background-color:#0094ff;
+}
+.created-at-date{
+    display:block;
+    float:right;
 }
 
-.selected{
-    border: 1px solid green;
+.tags{
+    text-align:right;
 }
 
-
-/************my games - created joined **********/
-#created-games-wrapper,
-#joined-games-wrapper{
-    width:45%;
-    float:left;    
+/************* comments ********************/
+.comment{
+    margin:5px 10px;
+    border: 1px ridge skyblue;
 }
-
-
-
-#my-games-wrapper{
-    text-align:center;
-}
-
-/*********** Battlefield***********/
-#battle-in-game-display{
-    width:60%;
-}
-
-#joined-games-wrapper{
-    width:30%;
-}
-
-
-#battle-field-table td{ 
-    border-collapse:collapse;
-    border:2px solid black;
-    width:50px;
-    height:50px;
-    text-align:center;
-    font-size:0.7em;
-}
-
-#battle-field-table .unit-owner-blue{
-    border-color:blue;
-}
-
-#battle-field-table .unit-owner-red{
-    border-color:red;
-}
-
-#battle-field-table .unit-type-ranger{
-    background-image:url("../images/ranger.png");
-}
-
-#battle-field-table .unit-type-warrior{
-    background-image:url("../images/warrior.png");
-}
-
 

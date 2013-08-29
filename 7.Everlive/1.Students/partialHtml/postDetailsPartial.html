@@ -1,0 +1,32 @@
+﻿<div>   
+   <h1>Post</h1>
+    <div id="post-details-wrapper" class="clear-fix">
+
+    </div>
+    <div id="comment-form-holder">
+    </div>
+</div>
+
+<script type="x-mustache-template" id="post-details-template">    
+       <div id="post-details" data-post-id="{{Id}}">
+            <strong>{{Title}}</strong>
+            <p class="created-at-date">Author: {{Author}}, Created at: {{CreatedAt}}</p>
+            <div><p class="post-content">{{Content}}</p></div>
+            <div class="tags">
+                Tags:
+                {{#Tags}}
+                <span>{{.}},</span>
+                {{/Tags}}
+            </div>
+            <div id="comments-wrapper">
+            </div>
+        </div>
+        <a href="#/posts/{{Id}}/comment">leave a Comment</a>
+</script>
+
+<script type="x-mustache-template" id="comment-template">
+    <div class="comment">
+        <p>{{Content}}</p>
+        <p>Author: {{Author}}</p>
+    </div>
+</script>

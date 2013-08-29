@@ -4,13 +4,14 @@
 define(["class"], function (Class) {    
 
     var TableView = Class.create({
-        // settings is an object of type {rows:5, cols: 3} || {rows:3} || {cols:4} 
-        // if not provided it calculates the rows and cols 
-        // if rows provided calculates cols 
-        // if cols provided calculates rows
+        /* settings is an object of type {rows:5, cols: 3} || {rows:3} || {cols:4} 
+        * if not provided it calculates the rows and cols 
+        * if rows provided calculates cols 
+        * if cols provided calculates rows
+        */
         init: function (itemsSource, settings) {
             if (!(itemsSource instanceof Array)) {
-                throw "The itemsSource of a ListView must be an array!";
+                throw "The itemsSource of a TableView must be an array!";
             }
             this.itemsSource = itemsSource;
 
@@ -39,9 +40,9 @@ define(["class"], function (Class) {
             var tr = "";
             var elements = 0;
 
-            if (len === 0) {
-                return "<h1>Empty students list recieved from server. Refresh</h1>";
-            }
+            //if (len === 0) {
+            //    return;
+            //}
 
             for (var i = 0; i < len; i++) {
                 var item = this.itemsSource[i];
@@ -68,9 +69,9 @@ define(["class"], function (Class) {
         },
         render: function (template) {
 
-            if (this.itemsSource.length === 0) {
-                return "<h1>Empty students list recieved from server. Refresh</h1>";
-            }
+            //if (this.itemsSource.length === 0) {
+            //    return;
+            //}
 
             var list = document.createElement("ul");
             for (var i = 0; i < this.itemsSource.length; i++) {
@@ -100,10 +101,10 @@ define(["class"], function (Class) {
             this.itemsSource = itemsSource;
         },
         render: function (template) {
-            if (this.itemsSource.length === 0) {
-                this.container.html("<h1>Empty students list recieved from server. Refresh. Start the server from task 1.</h1>");
-                return;
-            }
+            //if (this.itemsSource.length === 0) {
+            //    this.container.html("<h1>Empty list.</h1>");
+            //    return;
+            //}
 
             this.content = $("<div id='combo-box-content'/>");
             //this.content.id = "";
@@ -149,12 +150,23 @@ define(["class"], function (Class) {
 
     // gets an itemSource(array) and optional settings Object
     return {
+        /*
+        *The table view gets itemsSource Array! and optional 
+        *settings {rows:p, cols:t} or {rows:r}/{cols: C} 
+        */
         getTableView: function (itemsSource, settings) {
             return new TableView(itemsSource, settings);
         },
+        /*
+        *The table view gets itemsSource Array!
+        */
         getListView: function (itemsSource) {
             return new ListView(itemsSource);
         },
+        /*
+        *The combo box gets a conteiner in which to put content
+        *and itemsSource - Array 
+        */
         getComboBoxView: function (container, itemsSource) {
             return new ComboBoxView(container, itemsSource);
         }
