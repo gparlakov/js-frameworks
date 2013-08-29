@@ -1,0 +1,21 @@
+﻿<div>
+    <h1>Posts</h1>
+    <ul>
+        <li ng-repeat="test in tests">
+            {{test}}
+        </li>
+    </ul>
+
+    <div>
+        <h1>Posts</h1>
+
+        <ul>
+            <li ng-repeat="test in tests">
+                <input type="text" value="{{test}}"/>
+            </li>
+        </ul>
+
+        <input ng-model="tests[0]" />
+    </div>
+
+</div>
