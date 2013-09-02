@@ -1,8 +1,17 @@
-﻿/// <reference path="lib/angular.js" />
-angular.module('forum', []).
-  config(['$routeProvider', function ($routeProvider) {
-      $routeProvider
-          .when('/home', { templateUrl: 'js/partial/allPostsPartial.html', controller: PostsController })
-          .when('/posts/create', {templateUrl:'js/partial/leavePost.html', controller: LeavePostController})
-          .otherwise({ redirectTo: '/home' });
-  }]);
+﻿/// <reference path="lib/require.js" />
+/// <reference path="lib/angular.js" />
+(function () {
+    angular.module('forum', []).
+        config(['$routeProvider', function ($routeProvider) {
+            $routeProvider
+                .when("/home", {
+                    templateUrl: "partialHtml/loginRegisterForm.html",
+                    controller: forum.controllers.loginRegisterController
+                })
+                .when('/posts', {
+                    templateUrl: 'partialHtml/PostsPartial.html',
+                    controller: forum.controllers.postsListController
+                })
+                .otherwise({ redirectTo: '/home' });
+        }]);
+}());

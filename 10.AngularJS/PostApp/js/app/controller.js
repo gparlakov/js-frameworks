@@ -1,39 +1,70 @@
-﻿/// <reference path="../lib/everlive.all.min.js" />
+﻿/// <reference path="../lib/require.js" />
+/// <reference path="data.js" />
 /// <reference path="../lib/angular.js" />
-function PostsController ($scope) {
-    var context = new Everlive({
-        apiKey: "oJBOmifHcu3At1cv",
-        masterKey: "rFpsWqEJwZyjhOz3EgRPDo5QIB9pespl"
-    });
-    $scope.query = "";
-    $scope.order = [];
-    $scope.orderProp = "CreatedOn";
+var forum = window.forum || {};
 
-    $scope.posts = [];
-    //$scope.$watch('posts', function (oldValue, newValue) {
-    //    return true;
-    //});
-    context.data("Posts").get()
-    .then(function (response) {
-        $scope.posts = response.result;
-        for (var i in response.result[0]) {
-            if (!hasAny($scope.order, i)) {
-                $scope.order.push(i);
-            }
-        }
-        $scope.$digest();
-    });
+forum.controllers = (function () {    
+    var data = forum.data().getData("oJBOmifHcu3At1cv");
 
-    function hasAny(collection, element) {
-        var res = _.any(collection, function(item) {
-            return item == element;
-        });
+    var postsListController = function PostsController($scope) {    
+        data.posts.getAll()
+            .then(function (response) {
+                posts = response.result;
+                for (var i = 0; i < posts.length; i++) {
+                    $scope.posts.push(posts[i]);
+                }
+            }, function (err) {
+
+            })
+
+        $scope.posts = [];
+
+        //$scope.start = function () {
+        //    $scope.tests[0] = "start";
+        //}
     }
-    //setTimeout(function () {
-    //    $scope.posts.push({});
-    //}, 10000);
-}
 
-function LeavePostController($scope) {
+    var loginRegisterController = function ($scope) {
+        var s = $scope;
 
-}
+        s.username = "";
+        s.displayName = "";
+        s.password = "";
+
+        s.register = function () {
+            var user = {
+                username: s.username,
+                password : s.password,
+                displayName: s.displayName
+            }
+
+            data.users.regiter(user)
+                .then(function (response) {
+                    open("#/posts", "_self");
+
+                }, function (err) {
+                    alert(err.message);
+                })            
+        };    
+
+        s.login = function () {
+            var user = {
+                username: s.username,
+                password: s.password,
+            }
+
+            data.users.login(user)
+                .then(function (response) {
+                    open("#/posts", "_self");
+
+                }, function (err) {
+                    alert(err.message);
+                }) 
+        };        
+    }
+
+    return {
+        postsListController: postsListController,
+        loginRegisterController: loginRegisterController
+    }
+}());
