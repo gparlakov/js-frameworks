@@ -13,8 +13,21 @@
     <script src="js/app.js"></script>
     <script src="js/lib/jquery-2.0.3.js"></script>
     <script src="js/lib/everlive.all.js"></script>
+    <link href="Styles/styles.css" rel="stylesheet" />
 </head>
 <body>
+    <header>
+        <ul id="navigation-bar" class="clear-fix">
+            <li><a href="#/login">Login/Logout</a></li>
+            <li class="login"><a href="#/posts">All posts</a></li>
+            <li class="login"><a href="#/posts/create">Create a new post</a></li>
+            <li><a href="#/about">About</a></li>            
+        </ul>
+    </header>
     <div ng-view></div>
+    <footer>
+        <h2>Posts and sh.t</h2>
+        <div class="floatRight"><span>Sofia 2013</span></div>
+    </footer>
 </body>
 </html>

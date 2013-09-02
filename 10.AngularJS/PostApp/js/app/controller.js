@@ -4,7 +4,7 @@
 var forum = window.forum || {};
 
 forum.controllers = (function () {    
-    var data = forum.data().getData("oJBOmifHcu3At1cv");
+    var data = forum.data().getData("oJBOmifHcu3At1cv");   
 
     var postsListController = function PostsController($scope) {    
         data.posts.getAll()
@@ -12,19 +12,62 @@ forum.controllers = (function () {
                 posts = response.result;
                 for (var i = 0; i < posts.length; i++) {
                     $scope.posts.push(posts[i]);
+                    $scope.$digest();
                 }
             }, function (err) {
-
+                debugger;
             })
 
         $scope.posts = [];
+    }
 
-        //$scope.start = function () {
-        //    $scope.tests[0] = "start";
-        //}
+    var newPostsController = function ($scope) {
+        var newPost = {
+            Title: "",
+            Author: "",
+            Content: "",
+            Tags: ""
+        };
+
+        $scope.newPost = newPost;
+        $scope.message = "";
+        $scope.addNewPost = function () {
+            data.posts.create($scope.newPost)
+             .then(function (result) {
+                 debugger;
+
+                 $scope.newPost = {
+                     Title: "",
+                     Author: "",
+                     Content: "",
+                     Tags: ""
+                 }
+
+                 $scope.message = "Created!";
+                 setTimeout(function () {
+                     $scope.message = "";
+                     $scope.$digest();
+                 }, 2500);
+
+                 $scope.$digest();
+             }, function (err) {
+                 debugger;
+             });
+        };
     }
 
     var loginRegisterController = function ($scope) {
+        var hidden = $(".login");
+        if (!data.isUserLogged()) {
+            hidden.hide();
+            var message = $("<h2>Login to POST</span>");
+            $("#navigation").append(message)
+
+            setTimeout(function () {
+                message.slideToggle();
+            }, 5000);
+        }
+
         var s = $scope;
 
         s.username = "";
@@ -40,6 +83,7 @@ forum.controllers = (function () {
 
             data.users.regiter(user)
                 .then(function (response) {
+                    hidden.show();
                     open("#/posts", "_self");
 
                 }, function (err) {
@@ -55,16 +99,33 @@ forum.controllers = (function () {
 
             data.users.login(user)
                 .then(function (response) {
+                    hidden.show();
                     open("#/posts", "_self");
-
                 }, function (err) {
                     alert(err.message);
                 }) 
-        };        
+        };
+
+        s.loginClass = "";
+        s.registerClass = "hidden";
+
+        s.toggleActive = function () {
+            var login = s.loginClass;
+            var register = s.registerClass;
+
+            s.loginClass = register;
+            s.registerClass = login;
+        }
+
+        s.logout = function () {
+            data.users.logout();
+            hidden.hide();
+        }
     }
 
     return {
         postsListController: postsListController,
-        loginRegisterController: loginRegisterController
+        loginRegisterController: loginRegisterController,
+        newPostsController: newPostsController
     }
 }());
