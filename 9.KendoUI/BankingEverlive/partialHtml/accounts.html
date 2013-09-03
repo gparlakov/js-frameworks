@@ -1,0 +1,18 @@
+﻿<h1>Accounts Page</h1>
+<div>
+    <ul data-bind="source: accounts" data-template="single-account">
+    </ul>
+</div>
+<div>
+    <label>New Account Name</label>
+    <input type="text" data-bind="value: newAccountName" />
+</div>
+<button data-bind="click: addNew">Add new account</button>
+
+    
+<script type="text/x-kendo-template" id="single-account">    
+    <li><a href="\#/accounts/#= Id #">#= Name #</a></li>
+</script>
+
+
+

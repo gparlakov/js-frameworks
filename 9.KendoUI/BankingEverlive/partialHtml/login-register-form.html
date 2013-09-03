@@ -1,0 +1,38 @@
+﻿<div>   
+   <h1>Home Page</h1>
+    <div id="login-register">
+
+        <!--<div id="active-form">
+            <button data-bind="click: toggle">Toggle Login/Register Form</button>
+        </div>-->
+
+        <div id="login-form" >
+            <label for="username-login">Username</label>
+            <input type="text" placeholder="username" data-bind="value: username" />
+
+            <label for="password-login">Password</label>
+            <input type="password" 
+                id="password-login" 
+                placeholder="password"
+                data-bind="value: password"/>
+
+            <button data-bind="click: login">Login</button>
+        </div>
+
+        <div>
+            <label for="username-register">Username</label>
+            <input type="text" placeholder="username" data-bind="value: username" />
+
+            <label for="nickname-register">Nickname</label>
+            <input type="text" placeholder="nickname" data-bind="value: displayName" />
+
+            <label for="password-register">Password</label>
+            <input type="password" data-bind="value: password" placeholder="password"/>
+
+            <button data-bind="click:register">Register</button>
+        </div>
+    </div>
+    <button data-bind="click: logout">Logout</button>
+</div>
+
+

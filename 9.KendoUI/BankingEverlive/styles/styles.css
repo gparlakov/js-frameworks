@@ -1,0 +1,109 @@
+﻿html, body, p, div,li,ul,input,label,textarea {
+    margin: 0;
+    padding: 0;
+    zoom: 1;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.clear-fix:after {
+    display:block;
+    content:"";
+    height:0;
+    clear:both;
+}
+
+.hidden {
+    display:none;
+}
+
+.floatLeft {
+    float:left;
+}
+
+.floatRight {
+    float:right;
+}
+
+body {
+    padding:20px 50px;
+}
+
+ul{
+    list-style-type:none;
+}
+
+
+/**********navigation bar***********/
+#navigation-bar {
+    list-style-type:none;    
+}
+
+    #navigation-bar > li{
+        float:left;
+        padding:5px 10px;
+    }
+
+        #navigation-bar > li > a {
+            color:skyblue;
+            text-decoration:none;            
+        }
+
+        #navigation-bar > li > a:hover{
+            background-color:#6d6a6a;
+        }
+
+        #navigation-bar > li > a:active{
+            color:blue;
+        }
+
+/********** logout button ***********/
+
+
+/*****main-content*****/
+#main-content{
+    width:75%;
+    /*float:left;*/
+}
+/*******sside-bar****/
+#side-bar{
+    float:right;
+    width:20%;
+}
+/********** error ***********/
+.error{
+    color:red;
+}
+
+/*********** OK message done-ok-green ********/
+.done-ok-green{
+    color:green;
+    font-family:'Adobe Arabic', 'Adobe Hebrew', Consolas;
+}
+
+/********** posts ***********/
+.post{
+    margin:10px 20px;
+    background-color:skyblue;
+}
+
+.post-content{
+    margin:5px  0px;
+    background-color:#0094ff;
+}
+.created-at-date{
+    display:block;
+    float:right;
+}
+
+.tags{
+    text-align:right;
+}
+
+/************* comments ********************/
+.comment{
+    margin:5px 10px;
+    border: 1px ridge skyblue;
+}
+
